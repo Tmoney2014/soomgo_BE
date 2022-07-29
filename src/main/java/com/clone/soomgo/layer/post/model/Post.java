@@ -5,7 +5,9 @@ import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.comment.Comment;
 import com.clone.soomgo.layer.likes.Likes;
+import com.clone.soomgo.layer.post.dto.ImgUrlRequestDto;
 import com.clone.soomgo.layer.post.dto.PostRequestDto;
+import com.clone.soomgo.layer.post.dto.TagRequestDto;
 import com.clone.soomgo.layer.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -63,11 +65,17 @@ public class Post extends TimeStamped {
 
 
     public Post(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
+
+        for(TagRequestDto tagRequestDto: postRequestDto.getTagList()){
+            this.tagList.add(tagRequestDto.getTag());
+        }
+
+        for(ImgUrlRequestDto imgUrlRequestDto: postRequestDto.getImgurlList()){
+            this.imgurlList.add(imgUrlRequestDto.getImgurl());
+        }
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
-        this.tagList = postRequestDto.getTagList();
-        this.imgurlList = postRequestDto.getImgurlList();
-        this.subject = postRequestDto.getSubjectEnum();
+        this.subject = postRequestDto.getSubject();
         this.user = userDetails.getUser();
     }
 }

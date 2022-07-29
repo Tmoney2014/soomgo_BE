@@ -9,15 +9,15 @@ import java.util.List;
 @Getter
 public class PostRequestDto {
 
-    private SubjectEnum subjectEnum;
+    private SubjectEnum subject;
 
     private String title;
 
-    private List<String> tagList;
+    private List<TagRequestDto> tagList;
 
     private String content;
 
-    private List<String> imgurlList;
+    private List<ImgUrlRequestDto> imgurlList;
 
 
 
