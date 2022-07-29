@@ -36,4 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 
-/appication.properties
+/src/main/resources/appication.properties
