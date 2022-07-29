@@ -1,7 +1,7 @@
 package com.clone.soomgo.layer.likes;
 
 import com.clone.soomgo.TimeStamped;
-import com.clone.soomgo.layer.post.Post;
+import com.clone.soomgo.layer.post.model.Post;
 import com.clone.soomgo.layer.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

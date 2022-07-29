@@ -1,4 +1,4 @@
-package com.clone.soomgo.layer.post;
+package com.clone.soomgo.layer.post.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
