@@ -1,4 +1,4 @@
-package com.clone.soomgo.layer.comment;
+package com.clone.soomgo.layer.comment.model;
 
 import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.layer.post.model.Post;
