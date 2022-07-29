@@ -39,7 +39,9 @@ public class UserService {
     public ResponseEntity<?> getAuth(UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
 
-        AuthResponseDto authResponseDto = new AuthResponseDto(user.getUsername(),user.getProfileurl(), user.getEmail(),user.getMobile(),user.isGosu());
+        AuthResponseDto authResponseDto = new AuthResponseDto(user.getUsername(),user.getProfileurl(), user.getMobile(),user.getEmail(),user.isGosu());
+
+
 
         return new ResponseEntity<>(authResponseDto,HttpStatus.valueOf(200));
 
