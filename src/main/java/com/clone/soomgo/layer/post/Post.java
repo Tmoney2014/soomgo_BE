@@ -3,11 +3,10 @@ package com.clone.soomgo.layer.post;
 
 import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.layer.comment.Comment;
-import com.clone.soomgo.layer.likes.Likes;
+import com.clone.soomgo.layer.likes.model.Likes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.matcher.FilterableList;
 
 
 import javax.persistence.*;
