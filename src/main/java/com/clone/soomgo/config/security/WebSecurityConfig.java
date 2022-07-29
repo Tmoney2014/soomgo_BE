@@ -9,6 +9,7 @@ import com.clone.soomgo.config.security.jwt.HeaderTokenExtractor;
 import com.clone.soomgo.config.security.provider.FormLoginAuthProvider;
 import com.clone.soomgo.config.security.provider.JWTAuthProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -41,18 +42,13 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 @EnableGlobalMethodSecurity(securedEnabled = true) // @Secured 어노테이션 활성화
+@AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JWTAuthProvider jwtAuthProvider;
     private final HeaderTokenExtractor headerTokenExtractor;
 
-    public WebSecurityConfig(
-            JWTAuthProvider jwtAuthProvider,
-            HeaderTokenExtractor headerTokenExtractor
-    ) {
-        this.jwtAuthProvider = jwtAuthProvider;
-        this.headerTokenExtractor = headerTokenExtractor;
-    }
+
 
     @Bean
     public BCryptPasswordEncoder encodePassword() {
@@ -80,6 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 서버에서 인증은 JWT로 인증하기 때문에 Session의 생성을 막습니다.
         http
+
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         /*
@@ -112,6 +109,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/join").permitAll()
                 .antMatchers(HttpMethod.GET,"/post/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/post").permitAll()
+                .antMatchers(HttpMethod.POST,"/login/oauth2/").permitAll()
+
 // 그 외 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
                 .and()
@@ -175,6 +174,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/join");
         skipPathList.add("GET,/post/**");
         skipPathList.add("GET,/post");
+        skipPathList.add("POST,/login/oauth2");
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(
                 skipPathList,

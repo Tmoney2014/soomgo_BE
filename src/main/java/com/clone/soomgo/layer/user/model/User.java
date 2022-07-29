@@ -28,7 +28,7 @@ public class User  extends TimeStamped {
     @Column
     private String mobile;
 
-    @Column
+    @Column(nullable = false)
     private boolean gosu;
 
     @Column
