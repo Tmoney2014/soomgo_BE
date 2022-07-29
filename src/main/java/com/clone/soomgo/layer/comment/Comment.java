@@ -1,7 +1,7 @@
 package com.clone.soomgo.layer.comment;
 
 import com.clone.soomgo.TimeStamped;
-import com.clone.soomgo.layer.post.Post;
+import com.clone.soomgo.layer.post.model.Post;
 import com.clone.soomgo.layer.user.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,9 +1,12 @@
-package com.clone.soomgo.layer.post;
+package com.clone.soomgo.layer.post.model;
 
 
 import com.clone.soomgo.TimeStamped;
+import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.comment.Comment;
-import com.clone.soomgo.layer.likes.model.Likes;
+import com.clone.soomgo.layer.likes.Likes;
+import com.clone.soomgo.layer.post.dto.PostRequestDto;
+import com.clone.soomgo.layer.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,12 +53,21 @@ public class Post extends TimeStamped {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
     private List<Comment> commentList;
 
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
+
 
     @Column(nullable = false)
     private int viewCount;
 
 
-
-
-
+    public Post(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
+        this.title = postRequestDto.getTitle();
+        this.content = postRequestDto.getContent();
+        this.tagList = postRequestDto.getTagList();
+        this.imgurlList = postRequestDto.getImgurlList();
+        this.subject = postRequestDto.getSubjectEnum();
+        this.user = userDetails.getUser();
+    }
 }
