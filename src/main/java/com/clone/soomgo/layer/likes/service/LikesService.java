@@ -2,10 +2,12 @@ package com.clone.soomgo.layer.likes.service;
 
 import com.clone.soomgo.layer.likes.model.Likes;
 import com.clone.soomgo.layer.likes.repository.LikesRepository;
-import com.clone.soomgo.layer.post.Post;
+
+import com.clone.soomgo.layer.post.model.Post;
+import com.clone.soomgo.layer.post.repository.PostRepository;
 import com.clone.soomgo.layer.user.model.User;
 import com.clone.soomgo.layer.user.repository.UserRepository;
-import lombok.NoArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
