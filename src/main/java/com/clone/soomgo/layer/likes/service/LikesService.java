@@ -36,7 +36,7 @@ public class LikesService {
     public ResponseEntity<?> deleteLikes(Long userId, Long postId) {
         List<Likes> likes = likesRepository.findByuserId(userId);
         for (Likes like : likes) {
-            if (like.getPost().getId() == postId) {
+            if (like.getPost().getId().equals(postId)) {
                 likesRepository.deleteById(like.getId());
             }
         }
