@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class CommentService {
 
     private final PostRepository postRepository;
 
-    public ResponseEntity<?> showPostComment(Long postId) {
+    public ResponseEntity<?> getPostComment(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new NullPointerException("글이 없습니다."));
 
@@ -39,6 +40,7 @@ public class CommentService {
         return new ResponseEntity<>(commentResponseDtoList, HttpStatus.valueOf(200));
     }
 
+    @Transactional
     public ResponseEntity<?> registerComment(Long postId, CommentRequestDto commentRequestDto, User user) {
         Post post = postRepository.findById(postId).get();
 
@@ -52,9 +54,7 @@ public class CommentService {
     public ResponseEntity<?> deleteComment(Long commentId,User user) {
         Comment comment = commentRepository.findById(commentId).get();
 
-        if(comment.getUser().getId().equals(user.getId()))
-            commentRepository.deleteById(commentId);
-        else
+        if(!comment.getUser().getId().equals(user.getId()))
             throw new IllegalArgumentException("작성자만 삭제가 가능합니다.");
 
         return new ResponseEntity<>("성공적으로 댓글이 삭제되었습니다.",HttpStatus.valueOf(200));
