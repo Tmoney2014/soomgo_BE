@@ -16,15 +16,15 @@ public class LikesController {
     private final LikesService likesService;
 
 
-    @PostMapping("/api/likes/{postid}")
-    public ResponseEntity<?> postLikes(@AuthenticationPrincipal UserDetailsImpl userDetails , Long postId) {
+    @PostMapping("/api/likes/{postId}")
+    public ResponseEntity<?> postLikes(@AuthenticationPrincipal UserDetailsImpl userDetails ,@PathVariable Long postId) {
         Long userId = userDetails.getUser().getId();
         return likesService.postLikes(userId,postId);
     }
 
 
-    @DeleteMapping("/api/likes/{postid}")
-    public ResponseEntity<?> deletetLikes(@AuthenticationPrincipal UserDetailsImpl userDetails , Long postId)  {
+    @DeleteMapping("/api/likes/{postId}")
+    public ResponseEntity<?> deletetLikes(@AuthenticationPrincipal UserDetailsImpl userDetails , @PathVariable Long postId)  {
         Long userId = userDetails.getUser().getId();
         return likesService.deleteLikes(userId,postId);
     }
