@@ -59,4 +59,20 @@ public class CommentService {
 
         return new ResponseEntity<>("성공적으로 댓글이 삭제되었습니다.",HttpStatus.valueOf(200));
     }
+
+    @Transactional
+    public ResponseEntity<?> updateComment(Long commentId,CommentRequestDto commentRequestDto ,User user) {
+        Comment comment = commentRepository.findById(commentId).get();
+
+        if(!comment.getUser().getId().equals(user.getId()))
+            throw new IllegalArgumentException("작성자만 수정이 가능합니다.");
+
+        if (comment.getContent().equals(commentRequestDto.getContent())) {
+            throw new IllegalArgumentException("같은 내용으로 수정 할 수 없습니다.");
+        }
+
+        comment.updateComment(user, commentRequestDto.getContent());
+
+        return new ResponseEntity<>("성공적으로 댓글이 수정되었습니다.",HttpStatus.valueOf(200));
+    }
 }
