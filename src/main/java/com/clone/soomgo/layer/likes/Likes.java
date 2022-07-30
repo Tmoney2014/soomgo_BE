@@ -3,6 +3,7 @@ package com.clone.soomgo.layer.likes;
 import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.layer.post.model.Post;
 import com.clone.soomgo.layer.user.model.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Likes extends TimeStamped {
 
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "POST_ID", nullable = false)
     private Post post;
 

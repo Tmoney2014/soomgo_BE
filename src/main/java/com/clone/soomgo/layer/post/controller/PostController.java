@@ -17,9 +17,9 @@ public class PostController {
 
 
     @PostMapping("/api/posts")
-    public ResponseEntity<?> createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<?> createPost(@RequestBody PostRequestDto postDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
-        ResponseEntity<?> responseEntity = postService.CreatePost(postRequestDto,userDetails);
+        ResponseEntity<?> responseEntity = postService.CreatePost(postDto,userDetails);
 
         return responseEntity;
 

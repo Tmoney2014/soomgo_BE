@@ -1,9 +1,10 @@
-package com.clone.soomgo.layer.comment.model;
+package com.clone.soomgo.layer.ImgUrl.model;
 
 import com.clone.soomgo.TimeStamped;
+import com.clone.soomgo.layer.ImgUrl.dto.ImgUrlDto;
 import com.clone.soomgo.layer.post.model.Post;
-import com.clone.soomgo.layer.user.model.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,9 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Comment extends TimeStamped {
+@AllArgsConstructor
+public class ImgUrl extends TimeStamped {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
@@ -22,17 +25,12 @@ public class Comment extends TimeStamped {
     @JsonBackReference
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
-    private User user;
-
     @Column(nullable = false)
-    private String content;
+    private String imgUrl;
 
-    public Comment(Post post, User user, String content) {
+
+    public ImgUrl(Post post, ImgUrlDto imgUrlDto){
         this.post = post;
-        this.user = user;
-        this.content = content;
+        this.imgUrl = imgUrlDto.getImgurl();
     }
 }
-
