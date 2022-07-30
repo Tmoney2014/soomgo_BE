@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
     Slice<Post> findAllBySubject(SubjectEnum subject, Pageable pageable);
 
+
 }

@@ -5,10 +5,9 @@ import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.ImgUrl.model.ImgUrl;
 import com.clone.soomgo.layer.comment.model.Comment;
-import com.clone.soomgo.layer.likes.Likes;
-import com.clone.soomgo.layer.ImgUrl.dto.ImgUrlDto;
+
+import com.clone.soomgo.layer.likes.model.Likes;
 import com.clone.soomgo.layer.post.dto.PostRequestDto;
-import com.clone.soomgo.layer.tag.dto.TagDto;
 import com.clone.soomgo.layer.tag.model.Tag;
 import com.clone.soomgo.layer.user.model.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
