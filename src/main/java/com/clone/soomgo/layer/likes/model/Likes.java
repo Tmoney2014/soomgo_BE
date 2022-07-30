@@ -1,8 +1,9 @@
-package com.clone.soomgo.layer.likes;
+package com.clone.soomgo.layer.likes.model;
 
 import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.layer.post.model.Post;
 import com.clone.soomgo.layer.user.model.User;
+import com.clone.soomgo.layer.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,12 @@ public class Likes extends TimeStamped {
     private User user;
 
 
+//    public Likes(User user, Post post) {
+//        super();
+//    }
 
-
+    public Likes(User user, Post post) {
+        this.user = user;
+        this.post = post;
+    }
 }

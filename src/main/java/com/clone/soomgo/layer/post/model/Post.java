@@ -4,7 +4,7 @@ package com.clone.soomgo.layer.post.model;
 import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.comment.model.Comment;
-import com.clone.soomgo.layer.likes.Likes;
+import com.clone.soomgo.layer.likes.model.Likes;
 import com.clone.soomgo.layer.post.dto.ImgUrlRequestDto;
 import com.clone.soomgo.layer.post.dto.PostRequestDto;
 import com.clone.soomgo.layer.post.dto.TagRequestDto;
