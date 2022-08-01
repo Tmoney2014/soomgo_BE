@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
+
     @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
@@ -76,6 +77,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 서버에서 인증은 JWT로 인증하기 때문에 Session의 생성을 막습니다.
         http
+                .oauth2Login()
+                .and()
 
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
