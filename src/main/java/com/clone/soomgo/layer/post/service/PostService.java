@@ -184,7 +184,7 @@ public class PostService {
             postSlice = postRepository.findAllByTitleContainingOrContentContainingOrTagsContainingOrderByIdDesc(keyword,keyword,keyword,pageable);
 
         }else{
-            postSlice = postRepository.findByIdLessThanAndTitleContainingOrContentContainingOrderByIdDesc(lastId,keyword,keyword,keyword,pageable);
+            postSlice = postRepository.findByIdLessThanAndTitleContainingOrContentContainingOrTagsContainingOrderByIdDesc(lastId,keyword,keyword,keyword,pageable);
         }
 
         responseEntity = new ResponseEntity<>(postToPostsResponseDto(postSlice),HttpStatus.valueOf(200));
