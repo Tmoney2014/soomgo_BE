@@ -21,7 +21,6 @@ public class Bookmark {
 
 
         @ManyToOne
-        @JsonBackReference
         @JoinColumn(name = "POST_ID", nullable = false)
         private Post post;
 

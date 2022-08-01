@@ -1,5 +1,6 @@
 package com.clone.soomgo.layer.bookmark.service;
 
+import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.bookmark.dto.BookmarkResponseDto;
 import com.clone.soomgo.layer.bookmark.model.Bookmark;
 import com.clone.soomgo.layer.bookmark.repository.BookmarkRepository;
@@ -32,8 +33,8 @@ public class BookmarkService {
         return new ResponseEntity<>("북마크 등록 성공", HttpStatus.valueOf(200));
     }
 
-    public ResponseEntity<?> deletebookmark(Long userId, Long postId) {
-        List<Bookmark> bookmarks = bookmarkRepository.findByuserId(userId);
+    public ResponseEntity<?> deletebookmark(UserDetailsImpl userDetails, Long postId) {
+        List<Bookmark> bookmarks = bookmarkRepository.findByUser(userDetails.getUser());
         for (Bookmark bookmark : bookmarks) {
             if (bookmark.getPost().getId().equals(postId)) {
                 bookmarkRepository.deleteById(bookmark.getId());
@@ -42,9 +43,9 @@ public class BookmarkService {
         return new ResponseEntity<>("북마크삭제 성공", HttpStatus.valueOf(200));
     }
 
-    public ResponseEntity<?> getbookmark(Long userId) {
+    public ResponseEntity<?> getbookmark(UserDetailsImpl userDetails) {
 
-        List<Bookmark> bookmarks = bookmarkRepository.findByuserId(userId);
+        List<Bookmark> bookmarks = bookmarkRepository.findByUser(userDetails.getUser());
 
         List<BookmarkResponseDto> bookmarkResponseDtoList = new ArrayList<>();
 

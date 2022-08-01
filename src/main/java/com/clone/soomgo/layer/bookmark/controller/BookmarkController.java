@@ -26,14 +26,12 @@ public class BookmarkController {
 
     @DeleteMapping("/api/bookmark/{postId}")
     public ResponseEntity<?> deletetbookmark(@AuthenticationPrincipal UserDetailsImpl userDetails , @PathVariable Long postId)  {
-        Long userId = userDetails.getUser().getId();
-        return bookmarkService.deletebookmark(userId,postId);
+        return bookmarkService.deletebookmark(userDetails,postId);
     }
 
     @GetMapping("/api/mybookmark")
     public ResponseEntity<?> getbookmark(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        Long userId = userDetails.getUser().getId();
-        return bookmarkService.getbookmark(userId);
+        return bookmarkService.getbookmark(userDetails);
     }
 
 }
