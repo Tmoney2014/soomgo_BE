@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @Builder
-public class PostsResponseDto {
+public class PostResponseDto {
 
     private Long postId;
 
@@ -28,9 +28,14 @@ public class PostsResponseDto {
 
     private List<String> tagList;
 
-    private String imgUrl;
+    private List<String> imgUrlList;
+
+    private int viewCount;
+
+    private boolean bookmark;
+
+    private boolean liked;
 
     private Long createdAt;
-
 
 }

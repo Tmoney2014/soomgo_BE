@@ -3,7 +3,6 @@ package com.clone.soomgo.layer.post.dto;
 
 import com.clone.soomgo.layer.ImgUrl.dto.ImgUrlDto;
 import com.clone.soomgo.layer.post.model.SubjectEnum;
-import com.clone.soomgo.layer.tag.dto.TagDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

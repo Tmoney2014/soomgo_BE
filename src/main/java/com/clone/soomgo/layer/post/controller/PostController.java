@@ -34,6 +34,51 @@ public class PostController {
 
     }
 
+    @GetMapping("/api/posts/{postId}")
+    public ResponseEntity<?> getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        ResponseEntity<?> responseEntity = postService.getPost(postId,userDetails);
+
+        return responseEntity;
+    }
+
+    @PutMapping("/api/posts/{postId}")
+    public ResponseEntity<?> updatePost(@PathVariable Long postId,@RequestBody PostRequestDto postRequestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        ResponseEntity<?> responseEntity = postService.updatePost(postId,postRequestDto,userDetails);
+
+        return responseEntity;
+
+    }
+
+    @DeleteMapping("/api/posts/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        ResponseEntity<?> responseEntity = postService.deletePost(postId,userDetails);
+
+        return responseEntity;
+    }
+
+    @GetMapping("/api/posts/cursor")
+    public ResponseEntity<?> getCursorPosts(@RequestParam(required = false)  Long lastId, @RequestParam int size, @RequestParam String subject, @RequestParam(required = false) String tag){
+
+        ResponseEntity<?> responseEntity = postService.getCursorPosts(lastId,size,subject);
+
+        return responseEntity;
+
+    }
+
+    @GetMapping("/api/posts/search")
+    public ResponseEntity<?> getSearchTagPosts(@RequestParam(required = false) Long lastId, @RequestParam int size, @RequestParam String keyword){
+
+        ResponseEntity<?> responseEntity = postService.getSearchTagPosts(lastId,size,keyword);
+
+        return responseEntity;
+
+    }
+
+
+
 
 
 
