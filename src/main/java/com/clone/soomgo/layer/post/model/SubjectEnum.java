@@ -7,7 +7,8 @@ public enum SubjectEnum {
     HOWMUCH,
     FINDGOSU,
     TOGETHER,
-    FREE;
+    FREE,
+    KNOWHOW;
 
 
 
@@ -23,6 +24,8 @@ public enum SubjectEnum {
                 return SubjectEnum.FINDGOSU;
             case "TOGETHER":
                 return SubjectEnum.TOGETHER;
+            case "KNOWHOW":
+                return SubjectEnum.KNOWHOW;
             default:
                 return SubjectEnum.FREE;
         }

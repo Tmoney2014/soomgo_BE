@@ -3,6 +3,7 @@ package com.clone.soomgo.layer.comment.model;
 import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.layer.post.model.Post;
 import com.clone.soomgo.layer.user.model.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,7 @@ public class Comment extends TimeStamped {
 
     @ManyToOne
     @JoinColumn(name = "POST_ID", nullable = false)
+    @JsonBackReference
     private Post post;
 
     @ManyToOne

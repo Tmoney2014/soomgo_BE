@@ -3,12 +3,15 @@ package com.clone.soomgo.layer.post.model;
 
 import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.config.security.UserDetailsImpl;
+import com.clone.soomgo.layer.ImgUrl.model.ImgUrl;
 import com.clone.soomgo.layer.comment.model.Comment;
+
 import com.clone.soomgo.layer.likes.model.Likes;
-import com.clone.soomgo.layer.post.dto.ImgUrlRequestDto;
 import com.clone.soomgo.layer.post.dto.PostRequestDto;
-import com.clone.soomgo.layer.post.dto.TagRequestDto;
+import com.clone.soomgo.layer.post.dto.TagDto;
+import com.clone.soomgo.layer.post.service.PostService;
 import com.clone.soomgo.layer.user.model.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,19 +43,20 @@ public class Post extends TimeStamped {
     private SubjectEnum subject;
 
 
-    @ElementCollection
-    @CollectionTable(name ="TAG_LIST",joinColumns = @JoinColumn(name ="POST_ID"))
-    private List<String> tagList = new ArrayList<>();
-
-    @ElementCollection
-    @CollectionTable(name ="IMAGEURL_LIST",joinColumns = @JoinColumn(name ="POST_ID"))
-    private List<String> imgurlList = new ArrayList<>();
+    @Column(nullable = false)
+    private String tags;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    @JsonManagedReference
+    private List<ImgUrl> imgurlList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    @JsonManagedReference
     private List<Likes> likeList;
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    @JsonManagedReference
     private List<Comment> commentList;
 
     @ManyToOne
@@ -60,22 +64,42 @@ public class Post extends TimeStamped {
     private User user;
 
 
-    @Column(nullable = false)
-    private int viewCount;
+    @ElementCollection
+    @CollectionTable(name = "VIEWUSER",joinColumns = @JoinColumn(name = "POST_ID"))
+    List<Long> viewUserList;
 
 
-    public Post(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
+    public Post(PostRequestDto postRequestDto, UserDetailsImpl userDetails,String tags) {
 
-        for(TagRequestDto tagRequestDto: postRequestDto.getTagList()){
-            this.tagList.add(tagRequestDto.getTag());
-        }
-
-        for(ImgUrlRequestDto imgUrlRequestDto: postRequestDto.getImgurlList()){
-            this.imgurlList.add(imgUrlRequestDto.getImgurl());
-        }
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
         this.subject = postRequestDto.getSubject();
         this.user = userDetails.getUser();
+        this.tags = tags;
+    }
+
+
+
+    public void addImgUrl(ImgUrl imgUrl){
+        this.imgurlList.add(imgUrl);
+    }
+
+    public void addViewUser(Long userId){
+        if(this.viewUserList.contains(userId)){
+            return;
+        }
+        viewUserList.add(userId);
+    }
+
+
+    public void update(PostRequestDto postRequestDto) {
+        List<TagDto> tagDtoList = postRequestDto.getTagList();
+        String tags = PostService.getTags(tagDtoList);
+
+        this.title = postRequestDto.getTitle();
+        this.content = postRequestDto.getContent();
+        this.subject = postRequestDto.getSubject();
+        this.tags = tags;
+
     }
 }

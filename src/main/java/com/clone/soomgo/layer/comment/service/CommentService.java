@@ -57,6 +57,8 @@ public class CommentService {
         if(!comment.getUser().getId().equals(user.getId()))
             throw new IllegalArgumentException("작성자만 삭제가 가능합니다.");
 
+        commentRepository.delete(comment);
+
         return new ResponseEntity<>("성공적으로 댓글이 삭제되었습니다.",HttpStatus.valueOf(200));
     }
 

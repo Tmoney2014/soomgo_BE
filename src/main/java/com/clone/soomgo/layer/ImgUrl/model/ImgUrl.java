@@ -1,40 +1,36 @@
-package com.clone.soomgo.layer.likes.model;
+package com.clone.soomgo.layer.ImgUrl.model;
 
 import com.clone.soomgo.TimeStamped;
+import com.clone.soomgo.layer.ImgUrl.dto.ImgUrlDto;
 import com.clone.soomgo.layer.post.model.Post;
-import com.clone.soomgo.layer.user.model.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Optional;
 
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
-public class Likes extends TimeStamped {
+@NoArgsConstructor
+@Entity
+@AllArgsConstructor
+public class ImgUrl extends TimeStamped {
 
-
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "LIKES_ID", nullable = false)
+    @Id
     private Long id;
 
-
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "POST_ID", nullable = false)
+    @JsonBackReference
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private String imgUrl;
 
-    public Likes(User user, Post post) {
-        this.user = user;
+
+    public ImgUrl(Post post, ImgUrlDto imgUrlDto){
         this.post = post;
+        this.imgUrl = imgUrlDto.getImgurl();
     }
 }
