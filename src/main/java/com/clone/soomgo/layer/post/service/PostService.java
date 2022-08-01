@@ -241,6 +241,7 @@ public class PostService {
                 .commentCount(post.getCommentList().size())
                 .content(post.getContent())
                 .liked(isLiked)
+                .writer(post.getUser().getUsername())
                 .createdAt(toLocalDateTimeMilliSecond(post.getCreatedAt()))
                 .imgUrlList(post.getImgurlList().stream().map(ImgUrl::getImgUrl).collect(Collectors.toList()))
                 .likeCount(post.getLikeList().size())

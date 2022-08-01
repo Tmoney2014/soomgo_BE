@@ -22,6 +22,8 @@ public class PostResponseDto {
 
     private String content;
 
+    private String writer;
+
     private int likeCount;
 
     private int commentCount;
