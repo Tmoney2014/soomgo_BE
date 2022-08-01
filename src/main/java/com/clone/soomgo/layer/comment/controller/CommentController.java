@@ -10,23 +10,30 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/api/comments/{postId}")
+    @GetMapping("/comments/{postId}")
     public ResponseEntity<?> getPostComment(@PathVariable Long postId) {
         return commentService.getPostComment(postId);
     }
 
-    @PostMapping("/api/comments/{postId}")
+    @PostMapping("/comments/{postId}")
     public ResponseEntity<?> registerComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return commentService.registerComment(postId,commentRequestDto,user);
     }
 
-    @DeleteMapping("/api/comments/{commentId}")
+    @PutMapping("/comments/{commentId}")
+    public ResponseEntity<?> updateComment(@PathVariable Long commentId,@RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return commentService.updateComment(commentId,commentRequestDto,user);
+    }
+
+    @DeleteMapping("/comments/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return commentService.deleteComment(commentId,user);
