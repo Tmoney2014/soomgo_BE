@@ -3,6 +3,8 @@ package com.clone.soomgo.layer.post.service;
 import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.ImgUrl.dto.ImgUrlDto;
 import com.clone.soomgo.layer.ImgUrl.model.ImgUrl;
+import com.clone.soomgo.layer.bookmark.model.Bookmark;
+import com.clone.soomgo.layer.bookmark.repository.BookmarkRepository;
 import com.clone.soomgo.layer.likes.model.Likes;
 import com.clone.soomgo.layer.likes.repository.LikesRepository;
 import com.clone.soomgo.layer.post.dto.PostRequestDto;
@@ -38,6 +40,8 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final LikesRepository likesRepository;
+
+    private final BookmarkRepository bookmarkRepository;
 
 
     @Transactional
@@ -92,17 +96,21 @@ public class PostService {
 
        Optional<Likes> likes = likesRepository.findByUserAndPost(user,post);
 
+       Optional<Bookmark> bookmark = bookmarkRepository.findByUserAndPost(user,post);
+
        boolean isliked = true;
 
-       boolean isbookmark = false;
+       boolean isbookmark = true;
 
        if(!likes.isPresent()){
            isliked = false;
        }
+       if(!bookmark.isPresent()){
+           isbookmark = false;
+       }
 
         post.addViewUser(userDetails.getUser().getId());
 
-        // TODO: 2022-07-30 bookmark true false 구현
 
         PostResponseDto postResponseDto = postToPostResponseDto(post,isbookmark,isliked);
 
