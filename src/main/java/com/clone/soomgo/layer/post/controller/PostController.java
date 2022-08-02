@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+
 @RestController
 @RequiredArgsConstructor
 public class PostController {
@@ -60,7 +62,7 @@ public class PostController {
     }
 
     @GetMapping("/api/posts/cursor")
-    public ResponseEntity<?> getCursorPosts(@RequestParam(required = false)  Long lastId, @RequestParam int size, @RequestParam String subject, @RequestParam(required = false) String tag){
+    public ResponseEntity<?> getCursorPosts(@RequestParam(required = false)  Long lastId, @RequestParam int size, @RequestParam String subject){
 
         ResponseEntity<?> responseEntity = postService.getCursorPosts(lastId,size,subject);
 
@@ -75,6 +77,14 @@ public class PostController {
 
         return responseEntity;
 
+    }
+
+    @GetMapping("/api/myposts")
+    public  ResponseEntity<?> getMyPosts(@AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        ResponseEntity<?> responseEntity = postService.getSearchTagPosts(userDetails);
+
+        return responseEntity;
     }
 
 

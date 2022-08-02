@@ -7,10 +7,7 @@ import com.clone.soomgo.layer.bookmark.model.Bookmark;
 import com.clone.soomgo.layer.bookmark.repository.BookmarkRepository;
 import com.clone.soomgo.layer.likes.model.Likes;
 import com.clone.soomgo.layer.likes.repository.LikesRepository;
-import com.clone.soomgo.layer.post.dto.PostRequestDto;
-import com.clone.soomgo.layer.post.dto.PostResponseDto;
-import com.clone.soomgo.layer.post.dto.PostsResponseDto;
-import com.clone.soomgo.layer.post.dto.TagDto;
+import com.clone.soomgo.layer.post.dto.*;
 import com.clone.soomgo.layer.post.model.Post;
 import com.clone.soomgo.layer.post.model.SubjectEnum;
 import com.clone.soomgo.layer.post.repository.PostRepository;
@@ -75,13 +72,13 @@ public class PostService {
         ResponseEntity<?> responseEntity;
 
         if(subject.equals("ALL")){
-            postSlice = postRepository.findAllByOrderByIdDesc(pageable);
+            postSlice = postRepository.findAllByOrderByIdDesc(SubjectEnum.valueOf("KNOWHOW"),pageable);
 
         }else{
             postSlice = postRepository.findAllBySubjectOrderByIdDesc(SubjectEnum.valueOf(subject),pageable);
 
         }
-        responseEntity = new ResponseEntity<>(postToPostsResponseDto(postSlice),HttpStatus.valueOf(200));
+        responseEntity = new ResponseEntity<>(SlicePostToSlicePostsResponseDto(postSlice),HttpStatus.valueOf(200));
         return responseEntity;
 
     }
@@ -115,7 +112,6 @@ public class PostService {
         PostResponseDto postResponseDto = postToPostResponseDto(post,isbookmark,isliked);
 
 
-
         return new ResponseEntity<>(postResponseDto,HttpStatus.valueOf(200));
 
     }
@@ -130,7 +126,7 @@ public class PostService {
 
 
         if(!post.getUser().getId().equals(user.getId())){
-            return new ResponseEntity<>("포스트를 수정할 권한이 없습니다",HttpStatus.valueOf(401));
+            return new ResponseEntity<>("수정할 권한이 없습니다",HttpStatus.valueOf(401));
         }
 
         post.getImgurlList().clear();
@@ -165,9 +161,9 @@ public class PostService {
 
         if(subject.equals("ALL")){ // 카테고리 분류 X
             if(lastId ==null){
-                postSlice = postRepository.findAllByOrderByIdDesc(pageable); //모든 포스트를 보여주는 페이지네이션 처음 부분
+                postSlice = postRepository.findAllByOrderByIdDesc(SubjectEnum.valueOf("KNOWHOW"),pageable); //모든 포스트를 보여주는 페이지네이션 처음 부분
             }else{
-                postSlice = postRepository.findByIdLessThanOrderByIdDesc(lastId,pageable); // 모든 포스트를 보여주는 페이지네이션 후 부분
+                postSlice = postRepository.findByIdLessThanOrderByIdDesc(lastId,SubjectEnum.valueOf("KNOWHOW"),pageable); // 모든 포스트를 보여주는 페이지네이션 후 부분
             }
 
         }else{
@@ -179,7 +175,7 @@ public class PostService {
             }
 
         }
-        responseEntity = new ResponseEntity<>(postToPostsResponseDto(postSlice),HttpStatus.valueOf(200));
+        responseEntity = new ResponseEntity<>(SlicePostToSlicePostsResponseDto(postSlice),HttpStatus.valueOf(200));
         return  responseEntity;
     }
 
@@ -195,8 +191,24 @@ public class PostService {
             postSlice = postRepository.findByIdLessThanAndTitleContainingOrContentContainingOrTagsContainingOrderByIdDesc(lastId,keyword,keyword,keyword,pageable);
         }
 
-        responseEntity = new ResponseEntity<>(postToPostsResponseDto(postSlice),HttpStatus.valueOf(200));
+        responseEntity = new ResponseEntity<>(SlicePostToSlicePostsResponseDto(postSlice),HttpStatus.valueOf(200));
         return  responseEntity;
+    }
+
+    public ResponseEntity<?> getSearchTagPosts(UserDetailsImpl userDetails) {
+        ResponseEntity<?> responseEntity;
+
+        List<Post> postList = postRepository.findByUser(userDetails.getUser());
+
+        MyPostsResponseDto myPostsResponseDto = MyPostsResponseDto.builder()
+                .mypostList(postListToPostsResponseDtoList(postList))
+                .build();
+
+
+        responseEntity = new ResponseEntity<>(myPostsResponseDto,HttpStatus.valueOf(200));
+        return  responseEntity;
+
+
     }
 
     public static String getTags(List<TagDto> tagDtoList) {
@@ -217,7 +229,26 @@ public class PostService {
 
 
 
-    private Slice<PostsResponseDto> postToPostsResponseDto(Slice<Post> postSlice){
+    private List<PostsResponseDto> postListToPostsResponseDtoList(List<Post> postList){
+        List<PostsResponseDto> postsResponseDtoList = postList.stream().map(p->
+                PostsResponseDto.builder()
+                        .postId(p.getId())
+                        .subject(p.getSubject())
+                        .title(p.getTitle())
+                        .content(p.getContent())
+                        .createdAt(p.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli())  //millisecond 변환
+                        .tagList(Stream.of(p.getTags().split(",")).collect(Collectors.toList())) //
+                        .imgUrl(p.getImgurlList().stream().map(ImgUrl::getImgUrl).collect(Collectors.toList()).get(0))
+                        .likeCount(p.getLikeList().size())
+                        .commentCount(p.getCommentList().size())
+                        .build()
+                ).collect(Collectors.toList());
+
+        return postsResponseDtoList;
+    }
+
+
+    private Slice<PostsResponseDto> SlicePostToSlicePostsResponseDto(Slice<Post> postSlice){
         Slice<PostsResponseDto> postsResponseDtoSlice = postSlice.map(p->
                 PostsResponseDto.builder()
                         .postId(p.getId())
@@ -258,7 +289,6 @@ public class PostService {
     public Long toLocalDateTimeMilliSecond(LocalDateTime localDateTime){
         return localDateTime.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
     }
-
 
 
 }
