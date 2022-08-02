@@ -110,9 +110,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/").permitAll()
                 .antMatchers(HttpMethod.GET,"/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/join").permitAll()
-                .antMatchers(HttpMethod.GET,"/post/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/post").permitAll()
-                .antMatchers(HttpMethod.POST,"/login/oauth2/").permitAll()
+                .antMatchers(HttpMethod.GET,"/signup").permitAll()
+                .antMatchers(HttpMethod.GET,"/mypage","/mypage/account-info","/mypage/bookmark").permitAll()
+                .antMatchers(HttpMethod.GET,"/mypage/community","/mypage/community/posts","/mypage/community/comments").permitAll()
+                .antMatchers(HttpMethod.GET,"/community","/community/soomgo-life","/community/pro-knowhow").permitAll()
+                .antMatchers(HttpMethod.GET,"/community/soomgo-life/post").permitAll()
 
 // 그 외 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
@@ -161,23 +163,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthFilter jwtFilter() throws Exception {
         List<String> skipPathList = new ArrayList<>();
 
-        // h2-console 허용
+
         skipPathList.add("GET,/h2-console/**");
         skipPathList.add("POST,/h2-console/**");
-        // 회원 관리 API 허용
         skipPathList.add("POST,/api/signup");
-        skipPathList.add("POST,/api/login");
-        //전체 게시글 조회
-        skipPathList.add("GET,/api/posts");
-        skipPathList.add("GET,/api/post/**");
-        skipPathList.add("GET,/api/comment/**");
-
-        skipPathList.add("GET,/");
+        skipPathList.add("POST,/api/login");;
         skipPathList.add("GET,/login");
-        skipPathList.add("GET,/join");
-        skipPathList.add("GET,/post/**");
-        skipPathList.add("GET,/post");
-        skipPathList.add("POST,/login/oauth2");
+        skipPathList.add("GET,/signup");
+        skipPathList.add("GET,/mypage");
+        skipPathList.add("GET,/mypage/account-info");
+        skipPathList.add("GET,/mypage/bookmark");
+        skipPathList.add("GET,/mypage/community");
+        skipPathList.add("GET,/mypage/community/posts");
+        skipPathList.add("GET,/mypage/community/comments");
+        skipPathList.add("GET,/community");
+        skipPathList.add("GET,/community/soomgo-life");
+        skipPathList.add("GET,/community/pro-knowhow");
+        skipPathList.add("GET,/community/soomgo-life/post");
+        skipPathList.add("GET,/");
+
 
         FilterSkipMatcher matcher = new FilterSkipMatcher(
                 skipPathList,
