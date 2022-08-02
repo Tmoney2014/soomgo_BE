@@ -2,6 +2,7 @@ package com.clone.soomgo.layer.user.service;
 
 import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.user.dto.AuthResponseDto;
+import com.clone.soomgo.layer.user.dto.RoleResponseDto;
 import com.clone.soomgo.layer.user.dto.SignupRequestDto;
 import com.clone.soomgo.layer.user.model.User;
 import com.clone.soomgo.layer.user.repository.UserRepository;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +48,17 @@ public class UserService {
 
         return new ResponseEntity<>(authResponseDto,HttpStatus.valueOf(200));
 
+    }
+
+    @Transactional
+    public ResponseEntity<?> changeRole(User user) {
+
+        user.updateGosu();
+
+        RoleResponseDto roleResponseDto = new RoleResponseDto(user.getEmail(),user.isGosu());
+
+        userRepository.save(user);
+
+        return new ResponseEntity<>(roleResponseDto,HttpStatus.valueOf(200));
     }
 }

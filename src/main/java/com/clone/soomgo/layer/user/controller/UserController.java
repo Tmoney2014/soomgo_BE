@@ -3,14 +3,12 @@ package com.clone.soomgo.layer.user.controller;
 import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.user.dto.AuthResponseDto;
 import com.clone.soomgo.layer.user.dto.SignupRequestDto;
+import com.clone.soomgo.layer.user.model.User;
 import com.clone.soomgo.layer.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -40,6 +38,13 @@ public class UserController {
         return responseEntity;
 
 
+    }
+
+    @PutMapping("/api/role")
+    public ResponseEntity<?> changeRole(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+
+        return userService.changeRole(user);
     }
 
 

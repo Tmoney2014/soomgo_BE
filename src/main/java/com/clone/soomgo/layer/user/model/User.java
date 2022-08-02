@@ -43,5 +43,9 @@ public class User  extends TimeStamped {
         this.password = password;
         this.gosu = false;
     }
+
+    public void updateGosu() {
+        this.gosu = !this.gosu;
+    }
 }
 

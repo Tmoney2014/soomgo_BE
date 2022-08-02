@@ -42,7 +42,8 @@ public class CommentService {
 
     @Transactional
     public ResponseEntity<?> registerComment(Long postId, CommentRequestDto commentRequestDto, User user) {
-        Post post = postRepository.findById(postId).get();
+        Post post = postRepository.findById(postId).orElseThrow(()->
+                new IllegalArgumentException("포스트를 찾을 수 없습니다."));
 
         Comment comment = new Comment(post,user,commentRequestDto.getContent());
 
@@ -52,7 +53,8 @@ public class CommentService {
     }
 
     public ResponseEntity<?> deleteComment(Long commentId,User user) {
-        Comment comment = commentRepository.findById(commentId).get();
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
+                new IllegalArgumentException("코멘트를 찾을 수 없습니다."));
 
         if(!comment.getUser().getId().equals(user.getId()))
             throw new IllegalArgumentException("작성자만 삭제가 가능합니다.");
@@ -64,7 +66,8 @@ public class CommentService {
 
     @Transactional
     public ResponseEntity<?> updateComment(Long commentId,CommentRequestDto commentRequestDto ,User user) {
-        Comment comment = commentRepository.findById(commentId).get();
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
+                new IllegalArgumentException("코멘트를 찾을 수 없습니다."));
 
         if(!comment.getUser().getId().equals(user.getId()))
             throw new IllegalArgumentException("작성자만 수정이 가능합니다.");
