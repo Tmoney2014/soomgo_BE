@@ -28,7 +28,7 @@ public class PostsResponseDto {
 
     private List<String> tagList;
 
-    private String imgUrl;
+    private List<String> imgUrlList;
 
     private Long createdAt;
 

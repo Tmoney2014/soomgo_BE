@@ -238,7 +238,7 @@ public class PostService {
                         .content(p.getContent())
                         .createdAt(p.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli())  //millisecond 변환
                         .tagList(Stream.of(p.getTags().split(",")).collect(Collectors.toList())) //
-                        .imgUrl(p.getImgurlList().stream().map(ImgUrl::getImgUrl).collect(Collectors.toList()).get(0))
+                        .imgUrlList(p.getImgurlList().stream().map(ImgUrl::getImgUrl).collect(Collectors.toList()))
                         .likeCount(p.getLikeList().size())
                         .commentCount(p.getCommentList().size())
                         .build()
@@ -257,7 +257,7 @@ public class PostService {
                         .content(p.getContent())
                         .createdAt(p.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli())  //millisecond 변환
                         .tagList(Stream.of(p.getTags().split(",")).collect(Collectors.toList())) //
-                        .imgUrl(p.getImgurlList().stream().map(ImgUrl::getImgUrl).collect(Collectors.toList()).get(0))
+                        .imgUrlList(p.getImgurlList().stream().map(ImgUrl::getImgUrl).collect(Collectors.toList()))
                         .likeCount(p.getLikeList().size())
                         .commentCount(p.getCommentList().size())
                         .build()
