@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,11 @@ public class BookmarkService {
     public ResponseEntity<?> postbookmark(Long userId, Long postId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다"));
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
+        Optional<Bookmark> bookmarkFound = bookmarkRepository.findByUserAndPost(user,post);
+        if(bookmarkFound.isPresent()){
+            return new ResponseEntity<>("북마크를 이미 한 게시글입니다",HttpStatus.valueOf(400));
+        }
+
         Bookmark bookmark = new Bookmark(user, post);
         bookmarkRepository.save(bookmark);
 

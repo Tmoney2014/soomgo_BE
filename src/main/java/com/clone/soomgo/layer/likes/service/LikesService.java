@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,10 @@ public class LikesService {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다"));
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
+        Optional<Likes> Likefound = likesRepository.findByUserAndPost(user,post);
+        if(Likefound.isPresent()){
+            return new ResponseEntity<>("좋아요를 이미 하신 게시글입니다",HttpStatus.valueOf(400));
+        }
         Likes like = new Likes(user, post);
         likesRepository.save(like);
 
