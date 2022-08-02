@@ -211,6 +211,19 @@ public class PostService {
 
     }
 
+    public ResponseEntity<?> getPostsOrderByViewCount() {
+        ResponseEntity<?> responseEntity;
+        Pageable pageable = PageRequest.ofSize(4);
+        List<Post> postList = postRepository.findByOrderByViewUserListSize(pageable);
+
+        ViewCountPostResponseDto viewCountPostResponseDto = new ViewCountPostResponseDto(postListToViewCountPostDto(postList));
+
+        responseEntity = new ResponseEntity<>(viewCountPostResponseDto,HttpStatus.valueOf(200));
+        return  responseEntity;
+
+    }
+
+
     public static String getTags(List<TagDto> tagDtoList) {
         List<String> tagContentList = new ArrayList<>();
         String tags = "";
@@ -218,6 +231,9 @@ public class PostService {
         for(TagDto tagDto:tagDtoList){
             if(tagContentList.contains(tagDto.getTag())){
                 throw new IllegalArgumentException("중복된 태그가 존재합니다");
+            }
+            if(tagDto.getTag().contains(",")){
+                throw new IllegalArgumentException(" ,이 들어간 태그는 쓸 수 없습니다.");
             }
             tags = tags+","+tagDto.getTag();
             tagContentList.add(tagDto.getTag());
@@ -227,7 +243,22 @@ public class PostService {
         return tags;
     }
 
+    private List<ViewCountPostDto> postListToViewCountPostDto(List<Post> postList) {
+        List<ViewCountPostDto> viewCountPostDtoList = postList.stream().map(p->
+                ViewCountPostDto.builder()
+                        .postId(p.getId())
+                        .commentCount(p.getCommentList().size())
+                        .likeCount(p.getLikeList().size())
+                        .title(p.getTitle())
+                        .content(p.getContent())
+                        .subject(p.getSubject())
+                        .viewCount(p.getViewUserList().size())
+                        .build()
+                ).collect(Collectors.toList());
 
+        return viewCountPostDtoList;
+
+    }
 
     private List<PostsResponseDto> postListToPostsResponseDtoList(List<Post> postList){
         List<PostsResponseDto> postsResponseDtoList = postList.stream().map(p->
@@ -236,7 +267,7 @@ public class PostService {
                         .subject(p.getSubject())
                         .title(p.getTitle())
                         .content(p.getContent())
-                        .createdAt(p.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli())  //millisecond 변환
+                        .createdAt(toLocalDateTimeMilliSecond(p.getCreatedAt()))  //millisecond 변환
                         .tagList(Stream.of(p.getTags().split(",")).collect(Collectors.toList())) //
                         .imgUrlList(p.getImgurlList().stream().map(ImgUrl::getImgUrl).collect(Collectors.toList()))
                         .likeCount(p.getLikeList().size())
@@ -255,7 +286,7 @@ public class PostService {
                         .subject(p.getSubject())
                         .title(p.getTitle())
                         .content(p.getContent())
-                        .createdAt(p.getCreatedAt().atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli())  //millisecond 변환
+                        .createdAt(toLocalDateTimeMilliSecond(p.getCreatedAt()))  //millisecond 변환
                         .tagList(Stream.of(p.getTags().split(",")).collect(Collectors.toList())) //
                         .imgUrlList(p.getImgurlList().stream().map(ImgUrl::getImgUrl).collect(Collectors.toList()))
                         .likeCount(p.getLikeList().size())
@@ -289,6 +320,7 @@ public class PostService {
     public Long toLocalDateTimeMilliSecond(LocalDateTime localDateTime){
         return localDateTime.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
     }
+
 
 
 }

@@ -88,9 +88,12 @@ public class PostController {
     }
 
 
+    @GetMapping("/api/posts/viewcount")
+    public ResponseEntity<?> getPostsOrderByViewCount(){
+        ResponseEntity<?> responseEntity = postService.getPostsOrderByViewCount();
 
-
-
+        return  responseEntity;
+    }
 
 
 }

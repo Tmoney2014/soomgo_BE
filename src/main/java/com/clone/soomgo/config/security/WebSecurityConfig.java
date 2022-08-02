@@ -105,7 +105,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
 // 회원 관리 처리 API 전부를 login 없이 허용
                 .antMatchers(HttpMethod.GET,"/api/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/api/posts","/api/posts/search","/api/posts/cursor").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/posts","/api/posts/search","/api/posts/cursor","/api/posts/viewcount").permitAll()
                 .antMatchers(HttpMethod.POST ,"/api/signup").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/").permitAll()
@@ -169,6 +169,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("POST,/h2-console/**");
         skipPathList.add("POST,/api/signup");
         skipPathList.add("POST,/api/login");;
+        skipPathList.add("GET,/api/posts/viewcount");
         skipPathList.add("GET,/api/posts");
         skipPathList.add("GET,/api/posts/search");
         skipPathList.add("GET,/api/posts/cursor");

@@ -32,7 +32,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Slice<Post> findByIdLessThanAndTitleContainingOrContentContainingOrTagsContainingOrderByIdDesc(Long id,String title,String tags,String content, Pageable pageable);// 제목,내용,태그에 하나라도 keyword가 들어간 포스트를 보여주는 페이지네이션 후 부분
 
 
-    List<Post>findByUser(User user);
+    List<Post> findByUser(User user);
+
+
+    @Query("select p from Post p ORDER BY p.viewUserList.size DESC,p.id DESC ")
+    List<Post> findByOrderByViewUserListSize(Pageable pageable);
 
 
 
