@@ -83,6 +83,14 @@ public class Post extends TimeStamped {
         this.tags = tags;
     }
 
+    public Post(String title,String content,SubjectEnum subject,String tags,User user){
+        this.title = title;
+        this.content = content;
+        this.subject = subject;
+        this.tags = tags;
+        this.user =user;
+    }
+
 
 
     public void addImgUrl(ImgUrl imgUrl){
