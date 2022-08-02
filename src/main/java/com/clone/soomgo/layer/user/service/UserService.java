@@ -2,6 +2,7 @@ package com.clone.soomgo.layer.user.service;
 
 import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.user.dto.AuthResponseDto;
+import com.clone.soomgo.layer.user.dto.UpdateAuthDto;
 import com.clone.soomgo.layer.user.dto.RoleResponseDto;
 import com.clone.soomgo.layer.user.dto.SignupRequestDto;
 import com.clone.soomgo.layer.user.model.User;
@@ -13,9 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final PasswordEncoder passwordEncoder;
@@ -60,5 +63,22 @@ public class UserService {
         userRepository.save(user);
 
         return new ResponseEntity<>(roleResponseDto,HttpStatus.valueOf(200));
+    }
+
+
+   @Transactional
+   public ResponseEntity<?> updateAuth(UserDetailsImpl userDetails, UpdateAuthDto updateAuthDto) {
+        
+       User user = userDetails.getUser();
+
+       user.updateAuth(updateAuthDto);
+
+       userRepository.save(user);
+
+       UpdateAuthDto updateResponseAuthDto = new UpdateAuthDto(user.getUsername(), user.getProfileurl(), user.getMobile());
+
+       return new ResponseEntity<>(updateResponseAuthDto,HttpStatus.valueOf(200));
+
+
     }
 }
