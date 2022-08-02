@@ -1,7 +1,7 @@
 package com.clone.soomgo.layer.user.controller;
 
 import com.clone.soomgo.config.security.UserDetailsImpl;
-import com.clone.soomgo.layer.user.dto.UpdateAuthDto;
+import com.clone.soomgo.layer.user.dto.UpdateRequestAuthDto;
 import com.clone.soomgo.layer.user.dto.SignupRequestDto;
 import com.clone.soomgo.layer.user.model.User;
 import com.clone.soomgo.layer.user.service.UserService;
@@ -48,8 +48,8 @@ public class UserController {
     }
 
     @PutMapping("/api/auth")
-    public ResponseEntity<?> updateAuth(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UpdateAuthDto updateAuthDto){
-        ResponseEntity<?> responseEntity = userService.updateAuth(userDetails, updateAuthDto);
+    public ResponseEntity<?> updateAuth(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UpdateRequestAuthDto updateRequestAuthDto){
+        ResponseEntity<?> responseEntity = userService.updateAuth(userDetails, updateRequestAuthDto);
 
         return responseEntity;
     }

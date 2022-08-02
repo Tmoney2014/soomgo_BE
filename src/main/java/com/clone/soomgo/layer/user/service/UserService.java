@@ -1,10 +1,7 @@
 package com.clone.soomgo.layer.user.service;
 
 import com.clone.soomgo.config.security.UserDetailsImpl;
-import com.clone.soomgo.layer.user.dto.AuthResponseDto;
-import com.clone.soomgo.layer.user.dto.UpdateAuthDto;
-import com.clone.soomgo.layer.user.dto.RoleResponseDto;
-import com.clone.soomgo.layer.user.dto.SignupRequestDto;
+import com.clone.soomgo.layer.user.dto.*;
 import com.clone.soomgo.layer.user.model.User;
 import com.clone.soomgo.layer.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -67,15 +63,15 @@ public class UserService {
 
 
    @Transactional
-   public ResponseEntity<?> updateAuth(UserDetailsImpl userDetails, UpdateAuthDto updateAuthDto) {
-        
+   public ResponseEntity<?> updateAuth(UserDetailsImpl userDetails, UpdateRequestAuthDto updateRequestAuthDto) {
+
        User user = userDetails.getUser();
 
-       user.updateAuth(updateAuthDto);
+       user.updateAuth(updateRequestAuthDto.getUsername(), passwordEncoder.encode(updateRequestAuthDto.getPassword()), updateRequestAuthDto.getMobile() );
 
        userRepository.save(user);
 
-       UpdateAuthDto updateResponseAuthDto = new UpdateAuthDto(user.getUsername(), user.getProfileurl(), user.getMobile());
+       UpdateResponseDto updateResponseAuthDto = new UpdateResponseDto(user.getUsername(), user.getMobile(),updateRequestAuthDto.getPassword().length());
 
        return new ResponseEntity<>(updateResponseAuthDto,HttpStatus.valueOf(200));
 

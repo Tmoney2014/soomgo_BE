@@ -1,7 +1,6 @@
 package com.clone.soomgo.layer.user.model;
 
 import com.clone.soomgo.TimeStamped;
-import com.clone.soomgo.layer.user.dto.UpdateAuthDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -49,10 +48,10 @@ public class User  extends TimeStamped {
         this.gosu = !this.gosu;
     }
 
-    public void updateAuth(UpdateAuthDto updateAuthDto) {
-        this.username = updateAuthDto.getUsername();
-        this.mobile = updateAuthDto.getMobile();
-        this.profileurl = updateAuthDto.getProfileURL();
+    public void updateAuth(String username, String password, String mobile) {
+        this.username = username;
+        this.password = password;
+        this.mobile = mobile;
     }
 }
 

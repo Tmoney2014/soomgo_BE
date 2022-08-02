@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateAuthDto {
+public class UpdateRequestAuthDto {
     private String username;
 
-    private String profileURL;
+    private String password;
 
     private String mobile;
 
