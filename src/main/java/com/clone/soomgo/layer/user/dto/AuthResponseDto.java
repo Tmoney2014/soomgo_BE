@@ -9,11 +9,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthResponseDto {
 
-    String username;
-    String profileURL;
-    String mobile;
-    String email;
-    boolean gosu;
+    private String username;
+
+    private String profileURL;
+
+    private String mobile;
+
+    private String email;
+
+    private boolean gosu;
+
+
 }
 
 
