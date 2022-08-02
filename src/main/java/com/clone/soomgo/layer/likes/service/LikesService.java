@@ -24,8 +24,8 @@ public class LikesService {
 
     public ResponseEntity<?> postLikes(Long userId, Long postId) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("유저가 없습니다"));
-        Post post = postRepository.findById(postId).get();
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
         Likes like = new Likes(user, post);
         likesRepository.save(like);
 
