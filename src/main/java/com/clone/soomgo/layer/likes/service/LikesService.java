@@ -23,14 +23,17 @@ public class LikesService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+    //좋아요 버튼 클릭시 좋아요 저장
     public ResponseEntity<?> postLikes(Long userId, Long postId) {
-
+        //USERID 와 POSTID 아이디로 USER 와 POST 를 찾아서 저장
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다"));
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
         Optional<Likes> Likefound = likesRepository.findByUserAndPost(user,post);
+        //이미 있는 USER와 POST 가 들어오면 오류 메시지 전달
         if(Likefound.isPresent()){
             return new ResponseEntity<>("좋아요를 이미 하신 게시글입니다",HttpStatus.valueOf(400));
         }
+        //새로운 Likes 생성후 USER 와 POST 넣고 저장
         Likes like = new Likes(user, post);
         likesRepository.save(like);
 
@@ -38,8 +41,11 @@ public class LikesService {
 
     }
 
+    //좋아요한 개시글의 좋아요 버튼 다시 누를시 좋아요 삭제
     public ResponseEntity<?> deleteLikes(Long userId, Long postId) {
+        // USERID 로 좋아요 한 개시물들을 리스트에 담아서
         List<Likes> likes = likesRepository.findByuserId(userId);
+        //for문으로 앞단에서 받아온 POSTID 와 같은 좋아요 삭제
         for (Likes like : likes) {
             if (like.getPost().getId().equals(postId)) {
                 likesRepository.deleteById(like.getId());
