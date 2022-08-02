@@ -4,6 +4,7 @@ package com.clone.soomgo.layer.post.model;
 import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.config.security.UserDetailsImpl;
 import com.clone.soomgo.layer.ImgUrl.model.ImgUrl;
+import com.clone.soomgo.layer.bookmark.model.Bookmark;
 import com.clone.soomgo.layer.comment.model.Comment;
 
 import com.clone.soomgo.layer.likes.model.Likes;
@@ -58,6 +59,10 @@ public class Post extends TimeStamped {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
     @JsonManagedReference
     private List<Comment> commentList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    @JsonManagedReference
+    private List<Bookmark> bookmarkList;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
