@@ -25,8 +25,8 @@ public class BookmarkService {
     
 
     public ResponseEntity<?> postbookmark(Long userId, Long postId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("유저가 없습니다"));
-        Post post = postRepository.findById(postId).get();
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 없습니다"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("포스트가 없습니다"));
         Bookmark bookmark = new Bookmark(user, post);
         bookmarkRepository.save(bookmark);
 
