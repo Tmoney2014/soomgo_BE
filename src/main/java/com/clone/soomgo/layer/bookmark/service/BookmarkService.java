@@ -38,7 +38,7 @@ public class BookmarkService {
         Bookmark bookmark = new Bookmark(user, post);
         bookmarkRepository.save(bookmark);
 
-        return new ResponseEntity<>("북마크 등록 성공", HttpStatus.valueOf(200));
+        return new ResponseEntity<>("북마크를 등록했습니다.", HttpStatus.valueOf(200));
     }
 
     //북마크 삭제하기 JWT의 유저정보와 앞단에서 받은 POSTID로 삭제하기
@@ -51,7 +51,7 @@ public class BookmarkService {
                 bookmarkRepository.deleteById(bookmark.getId());
             }
         }
-        return new ResponseEntity<>("북마크삭제 성공", HttpStatus.valueOf(200));
+        return new ResponseEntity<>("북마크가 삭제되었습니다.", HttpStatus.valueOf(200));
     }
 
     //JWT 의 유저 정보로 모든 북마크 보기
