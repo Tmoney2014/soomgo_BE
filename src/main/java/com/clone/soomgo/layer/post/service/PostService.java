@@ -45,11 +45,11 @@ public class PostService {
     public ResponseEntity<?> CreatePost(PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
 
         List<TagDto> tagDtoList = postRequestDto.getTagList();
-        List<ImgUrlDto> imgUrlDtoList = postRequestDto.getImgurlList();
-        getTags(tagDtoList);
-        String tags;
 
-        tags = getTags(tagDtoList);
+        List<ImgUrlDto> imgUrlDtoList = postRequestDto.getImgurlList();
+
+        String tags=getTags(tagDtoList);
+        
 
         Post post = new Post(postRequestDto,userDetails,tags);
         postRepository.save(post);
