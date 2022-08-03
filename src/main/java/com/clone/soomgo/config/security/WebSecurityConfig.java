@@ -1,11 +1,10 @@
 package com.clone.soomgo.config.security;
 
-import com.clone.soomgo.config.security.FilterSkipMatcher;
-import com.clone.soomgo.config.security.FormLoginFailureHandler;
-import com.clone.soomgo.config.security.FormLoginSuccessHandler;
 import com.clone.soomgo.config.security.filter.FormLoginFilter;
 import com.clone.soomgo.config.security.filter.JwtAuthFilter;
 import com.clone.soomgo.config.security.jwt.HeaderTokenExtractor;
+import com.clone.soomgo.config.security.oauth2.OAuth2AuthenticationSuccessHandler;
+import com.clone.soomgo.config.security.oauth2.UserOAuth2Service;
 import com.clone.soomgo.config.security.provider.FormLoginAuthProvider;
 import com.clone.soomgo.config.security.provider.JWTAuthProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JWTAuthProvider jwtAuthProvider;
     private final HeaderTokenExtractor headerTokenExtractor;
+    private final UserOAuth2Service userOAuth2Service;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
 
 
@@ -77,11 +78,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 서버에서 인증은 JWT로 인증하기 때문에 Session의 생성을 막습니다.
         http
-                .oauth2Login()
-                .and()
-
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .oauth2Login()
+                .defaultSuccessUrl("/")
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .userInfoEndpoint()
+                .userService(userOAuth2Service);
+
+
         /*
          * 1.
          * UsernamePasswordAuthenticationFilter 이전에 FormLoginFilter, JwtFilter 를 등록합니다.
