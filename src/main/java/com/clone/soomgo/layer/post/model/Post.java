@@ -3,6 +3,7 @@ package com.clone.soomgo.layer.post.model;
 
 import com.clone.soomgo.TimeStamped;
 import com.clone.soomgo.config.security.UserDetailsImpl;
+import com.clone.soomgo.layer.ImgUrl.dto.ImgUrlDto;
 import com.clone.soomgo.layer.ImgUrl.model.ImgUrl;
 import com.clone.soomgo.layer.bookmark.model.Bookmark;
 import com.clone.soomgo.layer.comment.model.Comment;
@@ -47,7 +48,7 @@ public class Post extends TimeStamped {
     @Column(nullable = false)
     private String tags;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post",orphanRemoval = true)
     @JsonManagedReference
     private List<ImgUrl> imgurlList = new ArrayList<>();
 
@@ -105,14 +106,26 @@ public class Post extends TimeStamped {
     }
 
 
-    public void update(PostRequestDto postRequestDto) {
+    public void update(PostRequestDto postRequestDto,Post post) {
         List<TagDto> tagDtoList = postRequestDto.getTagList();
-        String tags = PostService.getTags(tagDtoList);
+        List<ImgUrlDto> imgUrlDtoList = postRequestDto.getImgUrlList();
+
+
 
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
         this.subject = postRequestDto.getSubject();
-        this.tags = tags;
+        this.tags = PostService.getTags(tagDtoList);
+
+        this.imgurlList.clear();
+
+        if(!imgUrlDtoList.isEmpty()){
+            for(ImgUrlDto imgUrlDto:imgUrlDtoList){
+                ImgUrl imgUrl = new ImgUrl(post,imgUrlDto);
+                this.imgurlList.add(imgUrl);
+            }
+        }
+
 
     }
 }

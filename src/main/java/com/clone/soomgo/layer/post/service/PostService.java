@@ -46,7 +46,7 @@ public class PostService {
 
         List<TagDto> tagDtoList = postRequestDto.getTagList();
 
-        List<ImgUrlDto> imgUrlDtoList = postRequestDto.getImgurlList();
+        List<ImgUrlDto> imgUrlDtoList = postRequestDto.getImgUrlList();
 
         String tags=getTags(tagDtoList);
         
@@ -129,9 +129,8 @@ public class PostService {
             return new ResponseEntity<>("수정할 권한이 없습니다",HttpStatus.valueOf(401));
         }
 
-        post.getImgurlList().clear();
 
-        post.update(postRequestDto);
+        post.update(postRequestDto,post);
 
 
         return new ResponseEntity<>("포스트가 성공적으로 수정 되었습니다",HttpStatus.valueOf(200));

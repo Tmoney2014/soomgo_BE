@@ -20,7 +20,7 @@ public class PostRequestDto {
 
     private String content;
 
-    private List<ImgUrlDto> imgurlList;
+    private List<ImgUrlDto> imgUrlList;
 
 
 
