@@ -34,18 +34,19 @@ public class CommentService {
 
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
-        boolean owner = true;
+        boolean owner;
 
         for (Comment value : comments) {
             if (!value.getUser().getId().equals(user.getId())) {
                 owner = false;
+            } else {
+                owner = true;
+            }
+
+            for(Comment comment : comments) {
+                commentResponseDtoList.add(new CommentResponseDto(comment.getId(),comment.getUser().getUsername(),comment.getContent(),owner,comment.getCreatedAt()));
             }
         }
-
-        for(Comment comment : comments) {
-            commentResponseDtoList.add(new CommentResponseDto(comment.getId(),comment.getUser().getUsername(),comment.getContent(),owner,comment.getCreatedAt()));
-        }
-
         return new ResponseEntity<>(commentResponseDtoList, HttpStatus.valueOf(200));
     }
 
