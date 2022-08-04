@@ -14,20 +14,6 @@ public enum SubjectEnum {
 
     @JsonCreator
     public static SubjectEnum from(String subject) {
-        subject = subject.toUpperCase();
-        switch (subject) {
-            case "QNA":
-                return SubjectEnum.QNA;
-            case "HOWMUCH":
-                return SubjectEnum.HOWMUCH;
-            case "FINDGOSU":
-                return SubjectEnum.FINDGOSU;
-            case "TOGETHER":
-                return SubjectEnum.TOGETHER;
-            case "KNOWHOW":
-                return SubjectEnum.KNOWHOW;
-            default:
-                return SubjectEnum.FREE;
-        }
+        return SubjectEnum.valueOf(subject.toUpperCase());
     }
 }
