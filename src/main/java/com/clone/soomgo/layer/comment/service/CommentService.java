@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,16 +26,24 @@ public class CommentService {
 
     private final PostRepository postRepository;
 
-    public ResponseEntity<?> getPostComment(Long postId) {
+    public ResponseEntity<?> getPostComment(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new NullPointerException("글이 없습니다."));
 
-        List<Comment> comments = commentRepository.findAllByPost(post);
+        List<Comment> comments = commentRepository.findByUserAndPost(user,post);
 
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
+        boolean owner = true;
+
+        for (Comment value : comments) {
+            if (!value.getUser().getId().equals(user.getId())) {
+                owner = false;
+            }
+        }
+
         for(Comment comment : comments) {
-            commentResponseDtoList.add(new CommentResponseDto(comment.getId(),comment.getUser().getUsername(),comment.getContent(),comment.getCreatedAt()));
+            commentResponseDtoList.add(new CommentResponseDto(comment.getId(),comment.getUser().getUsername(),comment.getContent(),owner,comment.getCreatedAt()));
         }
 
         return new ResponseEntity<>(commentResponseDtoList, HttpStatus.valueOf(200));

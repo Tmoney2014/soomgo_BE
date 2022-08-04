@@ -11,5 +11,6 @@ public class CommentResponseDto {
     private Long id;
     private String username;
     private String content;
+    private boolean owner;
     private LocalDateTime createdAt;
 }
