@@ -62,7 +62,7 @@ public class BookmarkService {
         List<BookmarkResponseDto> bookmarkResponseDtoList = new ArrayList<>();
         //FOR문을 돌려 필요한 내용을 DTO 에 하나씩 담아 ADD 후 DTOLIST 를 앞단으로 리턴
         for(Bookmark bookmark : bookmarks) {
-            bookmarkResponseDtoList.add(new BookmarkResponseDto(bookmark.getPost().getTitle(),bookmark.getUser().getUsername(),bookmark.getPost().getContent(),bookmark.getPost().getId()));
+            bookmarkResponseDtoList.add(new BookmarkResponseDto(bookmark.getPost().getTitle(),bookmark.getPost().getUser().getUsername(),bookmark.getPost().getContent(),bookmark.getPost().getId()));
         }
 
         return new ResponseEntity<>(bookmarkResponseDtoList, HttpStatus.valueOf(200));
