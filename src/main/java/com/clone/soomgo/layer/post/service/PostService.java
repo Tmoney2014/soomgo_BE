@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -189,11 +190,15 @@ public class PostService {
         Slice<Post> postSlice;
         ResponseEntity<?> responseEntity;
 
+        if(keyword.contains(",")){
+            return new ResponseEntity<>(",가 들어간 검색어로 검색 할 수 없습니다.",HttpStatus.valueOf(400));
+        }
+
         if(lastId ==null){
-            postSlice = postRepository.findAllByTitleContainingOrContentContainingOrTagsContainingOrderByIdDesc(keyword,keyword,keyword,pageable);
+            postSlice = postRepository.findAllBySearchKeyword(keyword,keyword,keyword,SubjectEnum.KNOWHOW,pageable);
 
         }else{
-            postSlice = postRepository.findByIdLessThanAndTitleContainingOrContentContainingOrTagsContainingOrderByIdDesc(lastId,keyword,keyword,keyword,pageable);
+            postSlice = postRepository.findByIdLessThanSearchKeyword(lastId,keyword,keyword,keyword,SubjectEnum.KNOWHOW,pageable);
         }
 
         responseEntity = new ResponseEntity<>(SlicePostToSlicePostsResponseDto(postSlice),HttpStatus.valueOf(200));
