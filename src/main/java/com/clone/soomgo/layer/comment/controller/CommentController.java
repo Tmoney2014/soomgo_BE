@@ -17,7 +17,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/comments/{postId}")
-    public ResponseEntity<?> getPostComment(@PathVariable Long postId, UserDetailsImpl userDetails) {
+    public ResponseEntity<?> getPostComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return commentService.getPostComment(postId,user);
     }

@@ -29,8 +29,6 @@ public class Comment extends TimeStamped {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private boolean owner;
 
     public Comment(Post post, User user, String content) {
         this.post = post;
