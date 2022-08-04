@@ -99,6 +99,8 @@ public class PostService {
 
        boolean isbookmark = true;
 
+       boolean owner = true;
+
        if(!likes.isPresent()){
            isliked = false;
        }
@@ -106,10 +108,14 @@ public class PostService {
            isbookmark = false;
        }
 
+       if(!post.getUser().getId().equals(user.getId())){
+           owner =false;
+       }
+
         post.addViewUser(userDetails.getUser().getId());
 
 
-        PostResponseDto postResponseDto = postToPostResponseDto(post,isbookmark,isliked);
+        PostResponseDto postResponseDto = postToPostResponseDto(post,isbookmark,isliked,owner);
 
 
         return new ResponseEntity<>(postResponseDto,HttpStatus.valueOf(200));
@@ -294,7 +300,7 @@ public class PostService {
         );
         return postsResponseDtoSlice;
     }
-    private PostResponseDto postToPostResponseDto(Post post,Boolean bookmark,Boolean isLiked){
+    private PostResponseDto postToPostResponseDto(Post post,Boolean bookmark,Boolean isLiked,Boolean owner){
 
         PostResponseDto postResponseDto =  PostResponseDto.builder()
                 .postId(post.getId())
@@ -309,6 +315,7 @@ public class PostService {
                 .viewCount(post.getViewUserList().size())
                 .subject(post.getSubject())
                 .tagList(Stream.of(post.getTags().split(",")).collect(Collectors.toList()))
+                .owner(owner)
                 .title(post.getTitle())
                 .build();
 

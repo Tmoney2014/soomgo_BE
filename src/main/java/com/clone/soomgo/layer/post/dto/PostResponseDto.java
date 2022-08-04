@@ -38,6 +38,9 @@ public class PostResponseDto {
 
     private boolean liked;
 
+    private boolean owner;
+
     private Long createdAt;
+
 
 }
