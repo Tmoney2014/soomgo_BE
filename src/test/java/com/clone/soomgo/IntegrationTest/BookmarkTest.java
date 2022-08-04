@@ -71,70 +71,47 @@ class BookmarkTest {
     }
 
 
+    @Test
+    @Order(1)
+    @DisplayName("북마크 등록")
+    void test1() {
+        //given
+        long postId = 1L;
+        HttpEntity<?> request = new HttpEntity<>(postId, headers);
 
-//    @Test
-//    @Order(1)
-//    @DisplayName("좋아요 등록")
-//    void test1() {
-//        //given
-//        Long postId = 1L;
-//        HttpEntity<?> request = new HttpEntity<>(postId, headers);
-//
-//        //when
-//        ResponseEntity<String> response = restTemplate.exchange(
-//                "/api/likes/" + postId,
-//                HttpMethod.POST,
-//                request,
-//                String.class);
-//
-//        //then
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        String responseBody = response.getBody();
-//        assertEquals("좋아요 등록 성공", responseBody);
-//    }
-//
-//
-//    @Test
-//    @Order(2)
-//    @DisplayName("좋아요 삭제")
-//    void test2() {
-//        //given
-//        Long postId = 1L;
-//        HttpEntity<?> request = new HttpEntity<>(postId, headers);
-//
-//        //when
-//        ResponseEntity<String> response = restTemplate.exchange(
-//                "/api/likes/" + postId,
-//                HttpMethod.DELETE,
-//                request,
-//                String.class);
-//
-//        //then
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        String responseBody = response.getBody();
-//        assertEquals("좋아요 삭제 성공", responseBody);
-//
-//    }
-//
-//
-//    @Setter
-//    @Getter
-//    @Builder
-//    static class PostRequestDto {
-//
-//        private Long id;
-//
-//        private SubjectEnum subject;
-//
-//        private String title;
-//
-//        private List<TagDto> tagList;
-//
-//        private String content;
-//
-//        private List<ImgUrlDto> imgUrlList;
-//
-//    }
-//
+        //when
+        ResponseEntity<String> response = restTemplate.exchange(
+                "/api/bookmark/" + postId,
+                HttpMethod.POST,
+                request,
+                String.class);
+
+        //then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        String responseBody = response.getBody();
+        assertEquals("북마크를 등록했습니다.", responseBody);
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("북마크 삭제")
+    void test2() {
+        //given
+        long postId = 1L;
+        HttpEntity<?> request = new HttpEntity<>(postId, headers);
+
+        //when
+        ResponseEntity<String> response = restTemplate.exchange(
+                "/api/bookmark/" + postId,
+                HttpMethod.DELETE,
+                request,
+                String.class);
+
+        //then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        String responseBody = response.getBody();
+        assertEquals("북마크가 삭제되었습니다.", responseBody);
+    }
 }
+
 
