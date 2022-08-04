@@ -49,6 +49,11 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+    testCompileOnly 'org.projectlombok:lombok:1.18.12'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+    // 스프링 부트 테스트를 위한 라이브러리
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 
 
 
