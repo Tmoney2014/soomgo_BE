@@ -30,7 +30,7 @@ public class CommentService {
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new NullPointerException("글이 없습니다."));
 
-        List<Comment> comments = commentRepository.findByUserAndPost(user,post);
+        List<Comment> comments = commentRepository.findAllByPost(post);
 
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
