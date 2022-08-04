@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 //앞단에 북마크 표시하기위해 필요한 DTO
 public class BookmarkResponseDto {
-    private String tilte;
+    private String title;
     private String username;
     private String content;
     private Long postId;
