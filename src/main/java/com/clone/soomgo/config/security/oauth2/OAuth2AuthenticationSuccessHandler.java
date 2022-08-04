@@ -5,7 +5,6 @@ import com.clone.soomgo.config.security.jwt.JwtTokenUtils;
 import com.clone.soomgo.layer.user.model.User;
 import com.clone.soomgo.layer.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -51,7 +50,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private String makeRedirectUrl(String token) {
-        return UriComponentsBuilder.fromUriString("http://localhost:3000/oauth2/redirect/"+token)
+        return UriComponentsBuilder.fromUriString("http://testalice123.s3-website.ap-northeast-2.amazonaws.com/oauth2/redirect/"+token)
                 .build().toUriString();
     }
 }
