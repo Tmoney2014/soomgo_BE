@@ -35,8 +35,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByUser(User user);
 
 
-    @Query("select p from Post p ORDER BY p.viewUserList.size DESC,p.id DESC ")
-    List<Post> findByOrderByViewUserListSize(Pageable pageable);
+    @Query("select p from Post p  WHERE p.subject NOT IN ?1 ORDER BY p.viewUserList.size DESC,p.id DESC ")
+    List<Post> findByOrderByViewUserListSize(SubjectEnum subject,Pageable pageable);
 
 
 

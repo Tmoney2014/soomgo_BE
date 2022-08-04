@@ -213,7 +213,7 @@ public class PostService {
     public ResponseEntity<?> getPostsOrderByViewCount() {
         ResponseEntity<?> responseEntity;
         Pageable pageable = PageRequest.ofSize(4);
-        List<Post> postList = postRepository.findByOrderByViewUserListSize(pageable);
+        List<Post> postList = postRepository.findByOrderByViewUserListSize(SubjectEnum.KNOWHOW,pageable);
 
         ViewCountPostResponseDto viewCountPostResponseDto = new ViewCountPostResponseDto(postListToViewCountPostDto(postList));
 
